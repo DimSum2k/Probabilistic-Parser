@@ -1,3 +1,5 @@
+from pprint import pformat
+
 class Automaton():
     """Dynamic graph to store Ngram transitions from a corpus of text.
     This representation of Ngrams is more memory efficient than using transition arrays
@@ -29,6 +31,7 @@ class Automaton():
         self.uni = {}
         self.vocab_ = []
         
+
     def fit(self, corpus):
         '''Fill the graph with Ngram transitions from the corpus'''
         
@@ -65,6 +68,7 @@ class Automaton():
         self.vocab_ = self.uni.keys()
         self.normalize()
         
+
     def pad_node(self,l,i):
         if self.N==2:
             return l[i]
@@ -85,7 +89,8 @@ class Automaton():
 
         T = sum(self.uni.values())
         self.uni = {k:v/T for k,v in self.uni.items()}
-                              
+                
+
     def __len__(self):
         return len(self.vocab_)
     

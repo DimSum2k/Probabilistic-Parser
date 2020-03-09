@@ -115,12 +115,17 @@ def extract_sentences(X):
     """
        
     sentences = list()
+    POS = []
     for s in X:
         # build contituency tree
         t = nltk.tree.Tree.fromstring(s)
         # extract leaves
-        sentences.append(t.leaves())
-    return sentences
+        #sentences.append(t.leaves())
+        rules = [rule for rule in t.productions() if rule.is_lexical()]
+        sentences.append([r.rhs()[0] for r in rules])
+        POS.append([r.lhs() for r in rules])
+
+    return sentences, POS
 
 
 
