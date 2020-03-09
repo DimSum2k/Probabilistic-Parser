@@ -12,7 +12,6 @@ class OOV(object):
 
 
 	def get_best_sentence(self, sentence):
-		"""THIS IS AN APPROXIMATION"""
 
 		listw = []
 

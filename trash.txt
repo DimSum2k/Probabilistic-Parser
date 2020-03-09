@@ -134,4 +134,50 @@ def get_POS_old(sentence, pcfg, w2v=None, ngram=None, n1=2, n2=2, l=0.2):
 
 
 
+	def fit_pcfg_old(self, X):
+		"""Build PCFG from a list of consituency trees
+			1- convert bracketed tree to nltk tree format
+			2- apply Chomsky normal form transform
+			3- extract rules and exclude the word leaves
+			4- store transitions left->right 
+			5- normalise to get probability ditributions
+		
+		Parameters
+		----------
+		X : list
+			list of sentences in bracketed formats
+
+		Returns
+		-------
+		pcfg : dic (inplace)
+			Transition probabilities from symbol to symbol
+		"""
+
+		if self.fitted_pcfg:
+			raise ValueError("PCFG.pcfg already fitted")
+
+		for sentence in X:
+			# nltk format
+			t = nltk.tree.Tree.fromstring(sentence, remove_empty_top_bracketing=True)
+			# chomky normal form
+			self.chomkysation(t)
+			#rules exraction
+			rules = self.extract_rules(t, lexical=False)
+
+			# fill transitions
+			for r in rules:
+				# if left side does not exist we create the node
+				if r.lhs().symbol() not in self.pcfg_:
+					self.pcfg_[r.lhs().symbol()] = {}
+				# add one to vertex from left side to right side    
+				rhs = (r.rhs()[0].symbol(), r.rhs()[1].symbol())
+				self.pcfg_[r.lhs().symbol()][rhs] = self.pcfg_[r.lhs().symbol()].get(rhs,0) + 1
+				
+		self.pcfg_ = self.normalize(self.pcfg_)
+		self.fitted_pcfg=True
+
+
+
+
+
 
