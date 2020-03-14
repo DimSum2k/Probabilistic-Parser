@@ -1,5 +1,7 @@
 ## Probabilistic Parser for French
 
+Homework 2 for the course "Algorithms for speech and natural language processing" at MVA, ENS Paris Saclay [E. DUPOUX, B. SAGOT] (2020).
+
 This system provides a Probabilistic Parser for French based on the CYK algorithm, and the PCFG model and that is robust to unknown words thanks an OOV (out-of-vocabulary) module.
 
 ### System arguments
